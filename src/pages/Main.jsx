@@ -1,23 +1,21 @@
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { Card } from "../component/Card";
+import { fetchMultiplePokemonById } from "../RTK/thunk";
+import { useEffect } from "react";
 
 export default function Main() {
-  const pokemonData = useSelector((state) => state.pokemon);
+  const dispatch = useDispatch();
+  const pokemonData = useSelector((state) => state.pokemon.data);
+  const loading = useSelector((state) => state.pokemon.loading);
+  useEffect(() => {
+    dispatch(fetchMultiplePokemonById(10));
+  }, [dispatch]);
+
   return (
-    <div>
+    <>
       {pokemonData.data.map((el) => (
         <Card key={el.id} pokemon={el} />
       ))}
-    </div>
+    </>
   );
 }
-
-const CardContainer = styled.section``;
-const Card = ({ pokemon }) => {
-  return (
-    <CardContainer>
-      <img src={pokemon.front} />
-      <div>{pokemon.name}</div>
-    </CardContainer>
-  );
-};

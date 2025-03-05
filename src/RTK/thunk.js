@@ -13,10 +13,12 @@ export const fetchMultiplePokemonById = createAsyncThunk(
 
       const pokemonData = {
         id: pokemonId,
-        name: data.names.find((el) => el.language.name === "ko").name,
-        description: data.flavor_text_entries.find(
-          (el) => el.language.name === "ko",
-        ).flavor_text,
+        name:
+          data.names.find((el) => el.language.name === "ko")?.name ||
+          "이름 없음",
+        description:
+          data.flavor_text_entries.find((el) => el.language.name === "ko")
+            ?.flavor_text || "설명 없음",
         back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokemonId}.png`,
         front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,
       };
